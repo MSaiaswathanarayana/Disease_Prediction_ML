@@ -1,82 +1,213 @@
-# Disease Prediction
+# Disease Prediction Model – Web Application
 
-A web application that estimates disease likelihood from symptoms or clinical measurements.
-Each check asks only for the information its model needs.
+## About the Project
 
-| Check | Input | Data | Best model (selected by CV ROC-AUC) |
-|---|---|---|---|
-| Symptom checker | Symptoms (min. 3) | 132 symptoms, 41 conditions | SVM |
-| Heart disease | 13 clinical measurements | UCI Heart Disease (Cleveland), 303 patients | Logistic Regression |
-| Diabetes | 8 blood-test and body measurements | UCI Pima Indians Diabetes, 768 patients | Logistic Regression |
-| Breast cancer | 8 lab measurements from a fine-needle aspiration | UCI Breast Cancer Wisconsin, 569 samples | Logistic Regression |
-| Kidney disease | 24 urine, blood and history inputs | UCI Chronic Kidney Disease, 400 patients | SVM |
-| Liver disease | 10 liver function blood test inputs | UCI ILPD, 583 patients | Random Forest |
-| Blood pressure | Systolic and diastolic pressure | ACC/AHA 2017 guideline (rule-based, not trained) | n/a |
+This project is part of my CodeAlpha internship. I developed a disease prediction web application using machine learning to analyze medical information and estimate the likelihood of different diseases.
 
-Each task trains four algorithms: Support Vector Machine, Logistic Regression, Random Forest and XGBoost.
-Models are compared on a held-out test set, and the **Model comparison** page shows every result.
+The main purpose of this project is to understand how machine learning can be applied to healthcare-related data and how trained models can be connected to a web application. Users can enter symptoms or medical measurements and view the prediction results through a simple interface.
 
-> **Educational use only.** These models are not clinically validated and must not be used for medical decisions.
+## Project Objectives
 
-## Project structure
+- Understand and preprocess medical datasets.
+- Train machine learning models for disease classification.
+- Compare different algorithms and evaluate their performance.
+- Develop a web application for entering medical information.
+- Display prediction results with simple explanations.
+- Learn how to integrate multiple machine learning models into one application.
+
+## Features
+
+- Check symptoms and identify possible disease conditions.
+- Enter medical measurements for supported disease categories.
+- Predict possible conditions using trained machine learning models.
+- Display prediction probabilities and risk estimates where supported.
+- Provide information about symptoms, precautions, and general health awareness.
+- Compare machine learning models using evaluation metrics.
+- Validate input values and display error messages for invalid information.
+- Access the application through a web browser.
+
+## Diseases Covered
+
+The project includes separate prediction modules for the following conditions:
+
+- General symptom-based disease prediction
+- Heart disease
+- Diabetes
+- Breast cancer
+- Kidney disease
+- Liver disease
+- Blood pressure assessment
+
+Each module uses the input features supported by its corresponding dataset or implemented prediction logic.
+
+## Technologies Used
+
+- **Python** – Used for developing the machine learning models.
+- **Flask** – Used to build the web application and API.
+- **pandas** – Used to load and process datasets.
+- **NumPy** – Used for numerical operations.
+- **scikit-learn** – Used for training and evaluating machine learning models.
+- **HTML and CSS** – Used to create the website interface.
+- **JavaScript** – Used for frontend interactions and displaying results.
+- **Jupyter Notebook** – Used for experimentation and model development, where applicable.
+
+## Machine Learning Algorithms
+
+The project explores the following classification algorithms:
+
+- Support Vector Machine (SVM)
+- Logistic Regression
+- Random Forest
+- XGBoost
+
+The models are evaluated using suitable classification metrics, including accuracy, precision, recall, F1-score, and ROC-AUC where applicable.
+
+The best-performing model is selected separately for each prediction task based on the evaluation performed during development.
+
+## Datasets
+
+The project uses structured medical datasets for different prediction tasks. The dataset sources listed in the project documentation include:
+
+- UCI Heart Disease dataset
+- Pima Indians Diabetes dataset
+- Wisconsin Breast Cancer dataset
+- Chronic Kidney Disease dataset
+- Liver disease dataset
+- Symptom-based disease dataset
+
+The datasets contain different types of medical information, such as symptoms, blood test results, and clinical measurements. The input requirements vary depending on the disease being predicted.
+
+## How the Project Works
+
+First, I explored the available datasets and prepared the data for model training. I then trained different machine learning algorithms for the supported prediction tasks.
+
+After training, I compared the models using suitable evaluation metrics and saved the required model files. I connected these models to a Flask web application.
+
+Users can open the website, select a disease assessment, and enter the required information. The application processes the input and displays the result generated by the corresponding model.
+
+The website also provides general information about the relevant condition to help users understand the result.
+
+## Project Structure
+
+The repository contains the web application, machine learning code, templates, datasets, and supporting files required by the project.
+
 ```text
 Disease_Prediction_Project/
-├── app.py                    # Flask web app and API routes
+├── app.py
 ├── src/
-│   ├── data.py               # symptom data loading and cleaning
-│   ├── tabular.py            # input definitions for heart, diabetes and breast cancer
-│   ├── train.py              # trains and compares all four algorithms for each task
-│   ├── predictor.py          # loads trained models and validates inputs
-│   └── disease_info.py       # plain-language information about each condition
-├── templates/                # home, symptom checker, disease check, model comparison
+│   ├── data.py
+│   ├── tabular.py
+│   ├── train.py
+│   ├── predictor.py
+│   └── disease_info.py
+├── templates/
 ├── static/
-│   ├── css/style.css
-│   └── js/                   # common.js, symptoms.js, disease.js
-├── data/                     # datasets (see data/SOURCES.md)
-├── models/                   # trained models and metadata (created by training)
-├── reports/                  # comparison tables (created by training)
-├── notebooks/                # original exploratory notebook
-├── tests/test_app.py         # smoke tests
+├── data/
+├── models/
+├── reports/
+├── notebooks/
+├── tests/
 ├── requirements.txt
 └── README.md
 ```
 
-## Pages
-- **Patient assessment** (home): symptoms, personal details, blood tests and heart tests in one form.
-- **Disease checks**: a separate form for each condition (blood pressure, diabetes, heart, kidney, liver, breast cancer, symptom checker).
-- **Model comparison**: accuracy and other metrics for every model.
-- **About**: datasets, developer and contact details.
+The exact files and folders may vary slightly depending on the final version uploaded to GitHub.
 
-Every result shows the disease information: what it is, how it occurs, precautions to take, foods to eat, and foods and habits to avoid.
+## How to Run the Project
 
-## Setup and run
-1. Extract the ZIP and open the `Disease_Prediction_Project` folder in VS Code or a terminal.
-2. (Optional) create a virtual environment:
-   - Windows PowerShell: `python -m venv .venv` then `.venv\Scripts\Activate.ps1`
-3. Install packages: `python -m pip install -r requirements.txt`
-4. (Only if the data folder changed) rebuild the kidney and liver files: `python -m src.prepare_extra`
-5. Train all models (about 1 to 2 minutes; the app also trains automatically if models are missing):
-   `python -m src.train`
-   To train one task only: `python -m src.train heart`
-6. Start the app: `python app.py`
-7. Open http://127.0.0.1:5000
-8. (Optional) run the tests: `python -m pytest -q`
+### Requirements
 
-## API
-| Method | Route | Body | Returns |
-|---|---|---|---|
-| POST | `/api/symptoms/predict` | `{"symptoms": ["itching", ...]}` | top 3 conditions with probabilities and information |
-| POST | `/api/predict/heart`, `/diabetes`, `/breast` | `{"values": {"age": 55, ...}}` | probability, risk level, explanation and information |
+- Python installed on your computer.
+- Visual Studio Code or another Python development environment.
+- The project files and required dependencies.
 
-Invalid or missing inputs return HTTP 400 with a list of readable error messages.
+### Step 1: Download the Project
 
-## How the risk estimate works
-- The model outputs the probability that the condition is present.
-- Below 30% is a lower likelihood, 30 to 60% is moderate, and 60% or above is higher.
-- Results are estimates from patterns in past study data. They are not a diagnosis.
+Clone the repository or download it as a ZIP file and extract it.
+
+### Step 2: Open the Project
+
+Open the extracted `Disease_Prediction_Project` folder in Visual Studio Code.
+
+### Step 3: Create a Virtual Environment (Optional)
+
+```bash
+python -m venv .venv
+```
+
+Activate it on Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+### Step 4: Install the Required Libraries
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### Step 5: Train the Models if Required
+
+If the trained model files are not already included, follow the instructions in the project documentation to train them. For the project version that provides the training script, the command may be:
+
+```bash
+python -m src.train
+```
+
+Some disease modules may require separate training commands. Follow the commands documented in the actual project files.
+
+### Step 6: Start the Web Application
+
+```bash
+python app.py
+```
+
+### Step 7: Open the Website
+
+Open your browser and visit:
+
+http://127.0.0.1:5000
+
+You can now try the available disease assessment features.
+
+## Model Evaluation
+
+Each prediction task is evaluated separately because the datasets, input features, and target classes are different.
+
+The evaluation process helps compare the performance of the algorithms and select a suitable model for each task. Actual performance values should be taken from the project's evaluation reports and should not be assumed to be the same across all datasets.
 
 ## Limitations
-- The datasets are small, come from specific study populations, and may not represent other people.
-- Sensitivity (recall) is shown because missing a true case is often more harmful than a false alarm in screening.
-- Breast cancer uses 8 of 30 available measurements, chosen by a random forest on training data only.
-- None of the models has been validated in a clinical setting.
+
+- The predictions depend on the quality and size of the available datasets.
+- The datasets may not represent every age group, population, or medical situation.
+- A predicted probability is not a confirmed diagnosis.
+- Different disease modules require different input fields and cannot be used interchangeably.
+- The models have not been clinically validated unless such validation has been performed separately.
+- The application is developed for educational purposes and should not be used as a substitute for professional medical advice.
+
+## Future Improvements
+
+In the future, the project could be improved by using larger and more diverse datasets, improving model validation, adding more detailed prediction explanations, and testing the application with a wider range of valid and invalid inputs.
+
+Additional improvements could include better visualizations, more comprehensive testing, and a more detailed model evaluation report.
+
+## What I Learned
+
+While working on this project, I gained practical experience in preparing medical datasets, training classification models, comparing algorithms, and evaluating model performance. I also learned how to connect machine learning models to a Flask application and display prediction results through a web interface.
+
+This project helped me understand the practical workflow of developing a machine learning application, from working with datasets to building a website that users can interact with.
+
+## Internship Details
+
+**Organization:** CodeAlpha
+
+**Project Name:** Disease Prediction Model
+
+**Domain:** Artificial Intelligence and Machine Learning
+
+**Application Type:** Machine Learning Web Application
+
+## Disclaimer
+
+This project is intended for educational and demonstration purposes only. Its predictions are estimates based on the available data and must not be used to diagnose, treat, or make medical decisions about any person. Please consult a qualified healthcare professional for medical concerns.
