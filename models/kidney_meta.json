@@ -1,0 +1,553 @@
+{
+  "task": "kidney",
+  "title": "Chronic kidney disease",
+  "short": "Assess kidney disease risk from urine tests, blood tests and medical history.",
+  "description": "Enter your urine and blood test results and your medical history. The model estimates how likely chronic kidney disease is, based on the UCI Chronic Kidney Disease study.",
+  "positive_label": "chronic kidney disease",
+  "info_key": "Chronic kidney disease",
+  "source": "UCI Chronic Kidney Disease (Kaggle/UCI copy), 400 patients",
+  "best_model": "SVM",
+  "best_accuracy": 1.0,
+  "best_test_auc": 1.0,
+  "best_sensitivity": 1.0,
+  "features": [
+    {
+      "label": "Age",
+      "unit": "years",
+      "min": 2,
+      "max": 90,
+      "step": 1,
+      "default": 50,
+      "group": "Personal and blood pressure",
+      "help": "",
+      "name": "age",
+      "type": "number"
+    },
+    {
+      "label": "Blood pressure (diastolic)",
+      "unit": "mm Hg",
+      "min": 50,
+      "max": 180,
+      "step": 1,
+      "default": 80,
+      "group": "Personal and blood pressure",
+      "help": "The bottom number of your blood pressure reading.",
+      "name": "bp",
+      "type": "number"
+    },
+    {
+      "label": "Urine specific gravity",
+      "options": [
+        [
+          1.005,
+          "1.005"
+        ],
+        [
+          1.01,
+          "1.010"
+        ],
+        [
+          1.015,
+          "1.015"
+        ],
+        [
+          1.02,
+          "1.020"
+        ],
+        [
+          1.025,
+          "1.025"
+        ]
+      ],
+      "default": 1.02,
+      "group": "Urine tests",
+      "help": "Measures how concentrated the urine is.",
+      "name": "sg",
+      "unit": "",
+      "type": "select"
+    },
+    {
+      "label": "Urine albumin level",
+      "options": [
+        [
+          0,
+          "0 (none)"
+        ],
+        [
+          1,
+          "1"
+        ],
+        [
+          2,
+          "2"
+        ],
+        [
+          3,
+          "3"
+        ],
+        [
+          4,
+          "4"
+        ],
+        [
+          5,
+          "5 (very high)"
+        ]
+      ],
+      "default": 0,
+      "group": "Urine tests",
+      "help": "Protein-type leak into the urine. Higher means more albumin.",
+      "name": "al",
+      "unit": "",
+      "type": "select"
+    },
+    {
+      "label": "Urine sugar level",
+      "options": [
+        [
+          0,
+          "0 (none)"
+        ],
+        [
+          1,
+          "1"
+        ],
+        [
+          2,
+          "2"
+        ],
+        [
+          3,
+          "3"
+        ],
+        [
+          4,
+          "4"
+        ],
+        [
+          5,
+          "5 (very high)"
+        ]
+      ],
+      "default": 0,
+      "group": "Urine tests",
+      "help": "Sugar found in the urine.",
+      "name": "su",
+      "unit": "",
+      "type": "select"
+    },
+    {
+      "label": "Red blood cells in urine",
+      "options": [
+        [
+          0,
+          "Normal"
+        ],
+        [
+          1,
+          "Abnormal"
+        ]
+      ],
+      "default": 0,
+      "group": "Urine tests",
+      "help": "From the urine microscopy.",
+      "name": "rbc",
+      "unit": "",
+      "type": "select"
+    },
+    {
+      "label": "Pus cells in urine",
+      "options": [
+        [
+          0,
+          "Normal"
+        ],
+        [
+          1,
+          "Abnormal"
+        ]
+      ],
+      "default": 0,
+      "group": "Urine tests",
+      "help": "From the urine microscopy.",
+      "name": "pc",
+      "unit": "",
+      "type": "select"
+    },
+    {
+      "label": "Pus cell clumps in urine",
+      "options": [
+        [
+          0,
+          "Not present"
+        ],
+        [
+          1,
+          "Present"
+        ]
+      ],
+      "default": 0,
+      "group": "Urine tests",
+      "help": "Clusters of pus cells seen under the microscope.",
+      "name": "pcc",
+      "unit": "",
+      "type": "select"
+    },
+    {
+      "label": "Bacteria in urine",
+      "options": [
+        [
+          0,
+          "Not present"
+        ],
+        [
+          1,
+          "Present"
+        ]
+      ],
+      "default": 0,
+      "group": "Urine tests",
+      "help": "Bacteria seen under the microscope.",
+      "name": "ba",
+      "unit": "",
+      "type": "select"
+    },
+    {
+      "label": "Random blood glucose",
+      "unit": "mg/dL",
+      "min": 20,
+      "max": 500,
+      "step": 1,
+      "default": 120,
+      "group": "Blood tests",
+      "help": "Blood sugar measured at any time of day.",
+      "name": "bgr",
+      "type": "number"
+    },
+    {
+      "label": "Blood urea",
+      "unit": "mg/dL",
+      "min": 1,
+      "max": 400,
+      "step": 0.5,
+      "default": 35,
+      "group": "Blood tests",
+      "help": "A waste product measured in a blood test.",
+      "name": "bu",
+      "type": "number"
+    },
+    {
+      "label": "Serum creatinine",
+      "unit": "mg/dL",
+      "min": 0.4,
+      "max": 80,
+      "step": 0.1,
+      "default": 1.2,
+      "group": "Blood tests",
+      "help": "A key kidney function marker from a blood test.",
+      "name": "sc",
+      "type": "number"
+    },
+    {
+      "label": "Blood sodium",
+      "unit": "mEq/L",
+      "min": 4,
+      "max": 165,
+      "step": 0.5,
+      "default": 137,
+      "group": "Blood tests",
+      "help": "",
+      "name": "sod",
+      "type": "number"
+    },
+    {
+      "label": "Blood potassium",
+      "unit": "mEq/L",
+      "min": 2,
+      "max": 50,
+      "step": 0.1,
+      "default": 4.5,
+      "group": "Blood tests",
+      "help": "",
+      "name": "pot",
+      "type": "number"
+    },
+    {
+      "label": "Haemoglobin",
+      "unit": "g/dL",
+      "min": 3,
+      "max": 18,
+      "step": 0.1,
+      "default": 13.0,
+      "group": "Blood tests",
+      "help": "Measured in a full blood count.",
+      "name": "hemo",
+      "type": "number"
+    },
+    {
+      "label": "Packed cell volume (haematocrit)",
+      "unit": "%",
+      "min": 9,
+      "max": 60,
+      "step": 1,
+      "default": 40,
+      "group": "Blood tests",
+      "help": "Share of blood made of red cells.",
+      "name": "pcv",
+      "type": "number"
+    },
+    {
+      "label": "White blood cell count",
+      "unit": "cells/cumm",
+      "min": 2000,
+      "max": 30000,
+      "step": 100,
+      "default": 8000,
+      "group": "Blood tests",
+      "help": "From a full blood count.",
+      "name": "wc",
+      "type": "number"
+    },
+    {
+      "label": "Red blood cell count",
+      "unit": "million/cumm",
+      "min": 2,
+      "max": 9,
+      "step": 0.1,
+      "default": 4.8,
+      "group": "Blood tests",
+      "help": "From a full blood count.",
+      "name": "rc",
+      "type": "number"
+    },
+    {
+      "label": "Hypertension (high blood pressure)",
+      "options": [
+        [
+          0,
+          "No"
+        ],
+        [
+          1,
+          "Yes"
+        ]
+      ],
+      "default": 0,
+      "group": "Medical history and symptoms",
+      "help": "Diagnosed by a doctor.",
+      "name": "htn",
+      "unit": "",
+      "type": "select"
+    },
+    {
+      "label": "Diabetes mellitus",
+      "options": [
+        [
+          0,
+          "No"
+        ],
+        [
+          1,
+          "Yes"
+        ]
+      ],
+      "default": 0,
+      "group": "Medical history and symptoms",
+      "help": "Diagnosed by a doctor.",
+      "name": "dm",
+      "unit": "",
+      "type": "select"
+    },
+    {
+      "label": "Coronary artery disease",
+      "options": [
+        [
+          0,
+          "No"
+        ],
+        [
+          1,
+          "Yes"
+        ]
+      ],
+      "default": 0,
+      "group": "Medical history and symptoms",
+      "help": "Diagnosed by a doctor.",
+      "name": "cad",
+      "unit": "",
+      "type": "select"
+    },
+    {
+      "label": "Appetite",
+      "options": [
+        [
+          0,
+          "Good"
+        ],
+        [
+          1,
+          "Poor"
+        ]
+      ],
+      "default": 0,
+      "group": "Medical history and symptoms",
+      "help": "Recent appetite.",
+      "name": "appet",
+      "unit": "",
+      "type": "select"
+    },
+    {
+      "label": "Swelling in legs (pedal oedema)",
+      "options": [
+        [
+          0,
+          "No"
+        ],
+        [
+          1,
+          "Yes"
+        ]
+      ],
+      "default": 0,
+      "group": "Medical history and symptoms",
+      "help": "Visible swelling of the feet or ankles.",
+      "name": "pe",
+      "unit": "",
+      "type": "select"
+    },
+    {
+      "label": "Anaemia",
+      "options": [
+        [
+          0,
+          "No"
+        ],
+        [
+          1,
+          "Yes"
+        ]
+      ],
+      "default": 0,
+      "group": "Medical history and symptoms",
+      "help": "Diagnosed or measured as low haemoglobin.",
+      "name": "ane",
+      "unit": "",
+      "type": "select"
+    }
+  ],
+  "feature_names": [
+    "age",
+    "bp",
+    "sg",
+    "al",
+    "su",
+    "rbc",
+    "pc",
+    "pcc",
+    "ba",
+    "bgr",
+    "bu",
+    "sc",
+    "sod",
+    "pot",
+    "hemo",
+    "pcv",
+    "wc",
+    "rc",
+    "htn",
+    "dm",
+    "cad",
+    "appet",
+    "pe",
+    "ane"
+  ],
+  "medians": {
+    "age": 54.0,
+    "bp": 80.0,
+    "sg": 1.02,
+    "al": 0.0,
+    "su": 0.0,
+    "rbc": 0.0,
+    "pc": 0.0,
+    "pcc": 0.0,
+    "ba": 0.0,
+    "bgr": 120.5,
+    "bu": 42.0,
+    "sc": 1.2,
+    "sod": 138.0,
+    "pot": 4.3,
+    "hemo": 12.6,
+    "pcv": 40.0,
+    "wc": 8100.0,
+    "rc": 4.8,
+    "htn": 0.0,
+    "dm": 0.0,
+    "cad": 0.0,
+    "appet": 0.0,
+    "pe": 0.0,
+    "ane": 0.0
+  },
+  "metrics": [
+    {
+      "Model": "SVM",
+      "CV ROC-AUC (train)": 1.0,
+      "Accuracy": 1.0,
+      "Sensitivity (recall)": 1.0,
+      "Specificity": 1.0,
+      "Precision": 1.0,
+      "F1-score": 1.0,
+      "Test ROC-AUC": 1.0,
+      "TP": 50,
+      "TN": 30,
+      "FP": 0,
+      "FN": 0
+    },
+    {
+      "Model": "Logistic Regression",
+      "CV ROC-AUC (train)": 1.0,
+      "Accuracy": 0.975,
+      "Sensitivity (recall)": 0.96,
+      "Specificity": 1.0,
+      "Precision": 1.0,
+      "F1-score": 0.9796,
+      "Test ROC-AUC": 1.0,
+      "TP": 48,
+      "TN": 30,
+      "FP": 0,
+      "FN": 2
+    },
+    {
+      "Model": "Random Forest",
+      "CV ROC-AUC (train)": 0.9995,
+      "Accuracy": 1.0,
+      "Sensitivity (recall)": 1.0,
+      "Specificity": 1.0,
+      "Precision": 1.0,
+      "F1-score": 1.0,
+      "Test ROC-AUC": 1.0,
+      "TP": 50,
+      "TN": 30,
+      "FP": 0,
+      "FN": 0
+    },
+    {
+      "Model": "XGBoost",
+      "CV ROC-AUC (train)": 0.9977,
+      "Accuracy": 1.0,
+      "Sensitivity (recall)": 1.0,
+      "Specificity": 1.0,
+      "Precision": 1.0,
+      "F1-score": 1.0,
+      "Test ROC-AUC": 1.0,
+      "TP": 50,
+      "TN": 30,
+      "FP": 0,
+      "FN": 0
+    }
+  ],
+  "n_samples": 400,
+  "n_train": 320,
+  "n_test": 80,
+  "positive_rate": 0.625,
+  "educational_use_only": true
+}

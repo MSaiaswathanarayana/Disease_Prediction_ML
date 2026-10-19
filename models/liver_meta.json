@@ -1,0 +1,229 @@
+{
+  "task": "liver",
+  "title": "Liver disease",
+  "short": "Estimate liver disease risk from liver function blood tests.",
+  "description": "Enter your liver function blood test results. The model estimates how likely liver disease is, based on the Indian Liver Patient Dataset.",
+  "positive_label": "liver disease",
+  "info_key": "Liver disease",
+  "source": "UCI ILPD (Indian Liver Patient Dataset), 583 patients",
+  "best_model": "Random Forest",
+  "best_accuracy": 0.735,
+  "best_test_auc": 0.7853,
+  "best_sensitivity": 0.9157,
+  "features": [
+    {
+      "label": "Age",
+      "unit": "years",
+      "min": 4,
+      "max": 90,
+      "step": 1,
+      "default": 45,
+      "group": "Personal",
+      "help": "",
+      "name": "Age",
+      "type": "number"
+    },
+    {
+      "label": "Sex",
+      "options": [
+        [
+          1,
+          "Male"
+        ],
+        [
+          0,
+          "Female"
+        ]
+      ],
+      "default": 1,
+      "group": "Personal",
+      "help": "",
+      "name": "Gender",
+      "unit": "",
+      "type": "select"
+    },
+    {
+      "label": "Total bilirubin",
+      "unit": "mg/dL",
+      "min": 0.4,
+      "max": 75,
+      "step": 0.1,
+      "default": 1.0,
+      "group": "Liver blood tests",
+      "help": "Bilirubin is a yellow pigment the liver clears.",
+      "name": "TB",
+      "type": "number"
+    },
+    {
+      "label": "Direct bilirubin",
+      "unit": "mg/dL",
+      "min": 0.1,
+      "max": 20,
+      "step": 0.1,
+      "default": 0.2,
+      "group": "Liver blood tests",
+      "help": "",
+      "name": "DB",
+      "type": "number"
+    },
+    {
+      "label": "Alkaline phosphatase",
+      "unit": "IU/L",
+      "min": 60,
+      "max": 2200,
+      "step": 1,
+      "default": 200,
+      "group": "Liver blood tests",
+      "help": "",
+      "name": "Alkphos",
+      "type": "number"
+    },
+    {
+      "label": "ALT (SGPT)",
+      "unit": "IU/L",
+      "min": 10,
+      "max": 2000,
+      "step": 1,
+      "default": 30,
+      "group": "Liver blood tests",
+      "help": "Alanine aminotransferase, a liver enzyme.",
+      "name": "Sgpt",
+      "type": "number"
+    },
+    {
+      "label": "AST (SGOT)",
+      "unit": "IU/L",
+      "min": 10,
+      "max": 5000,
+      "step": 1,
+      "default": 40,
+      "group": "Liver blood tests",
+      "help": "Aspartate aminotransferase, a liver enzyme.",
+      "name": "Sgot",
+      "type": "number"
+    },
+    {
+      "label": "Total protein",
+      "unit": "g/dL",
+      "min": 2.5,
+      "max": 10,
+      "step": 0.1,
+      "default": 6.8,
+      "group": "Liver blood tests",
+      "help": "",
+      "name": "TP",
+      "type": "number"
+    },
+    {
+      "label": "Albumin",
+      "unit": "g/dL",
+      "min": 0.9,
+      "max": 6,
+      "step": 0.1,
+      "default": 3.5,
+      "group": "Liver blood tests",
+      "help": "",
+      "name": "ALB",
+      "type": "number"
+    },
+    {
+      "label": "Albumin and globulin ratio",
+      "unit": "",
+      "min": 0.3,
+      "max": 3,
+      "step": 0.01,
+      "default": 1.0,
+      "group": "Liver blood tests",
+      "help": "",
+      "name": "AG_Ratio",
+      "type": "number"
+    }
+  ],
+  "feature_names": [
+    "Age",
+    "Gender",
+    "TB",
+    "DB",
+    "Alkphos",
+    "Sgpt",
+    "Sgot",
+    "TP",
+    "ALB",
+    "AG_Ratio"
+  ],
+  "medians": {
+    "Age": 45.0,
+    "Gender": 1.0,
+    "TB": 1.0,
+    "DB": 0.3,
+    "Alkphos": 208.5,
+    "Sgpt": 35.0,
+    "Sgot": 41.0,
+    "TP": 6.55,
+    "ALB": 3.1,
+    "AG_Ratio": 0.955
+  },
+  "metrics": [
+    {
+      "Model": "Random Forest",
+      "CV ROC-AUC (train)": 0.7331,
+      "Accuracy": 0.735,
+      "Sensitivity (recall)": 0.9157,
+      "Specificity": 0.2941,
+      "Precision": 0.76,
+      "F1-score": 0.8306,
+      "Test ROC-AUC": 0.7853,
+      "TP": 76,
+      "TN": 10,
+      "FP": 24,
+      "FN": 7
+    },
+    {
+      "Model": "XGBoost",
+      "CV ROC-AUC (train)": 0.7191,
+      "Accuracy": 0.7094,
+      "Sensitivity (recall)": 0.8554,
+      "Specificity": 0.3529,
+      "Precision": 0.7634,
+      "F1-score": 0.8068,
+      "Test ROC-AUC": 0.759,
+      "TP": 71,
+      "TN": 12,
+      "FP": 22,
+      "FN": 12
+    },
+    {
+      "Model": "SVM",
+      "CV ROC-AUC (train)": 0.7135,
+      "Accuracy": 0.7179,
+      "Sensitivity (recall)": 1.0,
+      "Specificity": 0.0294,
+      "Precision": 0.7155,
+      "F1-score": 0.8342,
+      "Test ROC-AUC": 0.8441,
+      "TP": 83,
+      "TN": 1,
+      "FP": 33,
+      "FN": 0
+    },
+    {
+      "Model": "Logistic Regression",
+      "CV ROC-AUC (train)": 0.713,
+      "Accuracy": 0.735,
+      "Sensitivity (recall)": 0.6867,
+      "Specificity": 0.8529,
+      "Precision": 0.9194,
+      "F1-score": 0.7862,
+      "Test ROC-AUC": 0.8303,
+      "TP": 57,
+      "TN": 29,
+      "FP": 5,
+      "FN": 26
+    }
+  ],
+  "n_samples": 583,
+  "n_train": 466,
+  "n_test": 117,
+  "positive_rate": 0.7136,
+  "educational_use_only": true
+}

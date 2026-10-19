@@ -1,0 +1,13 @@
+Dataset inspection summary
+==========================
+Training CSV original shape: (4920, 134)
+Testing CSV original shape: (42, 133)
+Training columns after removing Unnamed columns: 133
+Testing columns after removing Unnamed columns: 133
+Target column prognosis present in both files: True
+Training class count: 41
+Training feature count: 132
+Training rows: 4920
+Testing rows: 42
+
+Note: test metrics may be unstable because the test file is small.

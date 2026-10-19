@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}{{ spec.title }} risk check | Disease Prediction{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>{{ spec.title }} risk check</h1>
+  <p>{{ spec.description }}</p>
+</section>
+
+<div class="layout">
+  <section class="card" aria-labelledby="form-title">
+    <div class="card-head">
+      <span class="step">1</span>
+      <div>
+        <h2 id="form-title">Enter your results</h2>
+        <p class="muted">Only the {{ spec.features|length }} values this model uses are requested.</p>
+      </div>
+    </div>
+
+    <form id="predict-form" novalidate>
+      <div id="fields" class="fields"></div>
+      <div id="form-error" class="alert alert-error" hidden></div>
+      <div class="actions">
+        <p class="hint">Values are checked against normal ranges before the estimate is calculated.</p>
+        <button type="submit" class="btn btn-primary" id="submit-btn">Calculate risk</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="card results" aria-live="polite" aria-labelledby="result-title">
+    <div class="card-head">
+      <span class="step">2</span>
+      <div>
+        <h2 id="result-title">Your estimate</h2>
+        <p class="muted">Estimated likelihood based on patterns in the study data.</p>
+      </div>
+    </div>
+
+    <div id="placeholder" class="placeholder">
+      <div class="placeholder-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm1 13h-2v-2h2zm0-4h-2V7h2z"/></svg>
+      </div>
+      <p>Fill in the details and select <strong>Calculate risk</strong> to see your estimate.</p>
+    </div>
+
+    <div id="loading" class="loading" hidden>
+      <span class="spinner" aria-hidden="true"></span>
+      <p>Calculating your estimate...</p>
+    </div>
+
+    <div id="error" class="alert alert-error" hidden></div>
+
+    <div id="output" hidden>
+      <div class="gauge-wrap">
+        <svg class="gauge" viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="gauge-track" cx="60" cy="60" r="54"></circle>
+          <circle class="gauge-fill" id="gauge-fill" cx="60" cy="60" r="54" stroke-dasharray="0 339.29"></circle>
+        </svg>
+        <div class="gauge-label">
+          <span class="gauge-value" id="gauge-value">0%</span>
+          <span class="gauge-caption">estimated</span>
+        </div>
+      </div>
+
+      <div class="risk-row">
+        <span class="risk-badge" id="risk-badge">Lower likelihood</span>
+      </div>
+      <p class="risk-text" id="risk-text"></p>
+      <p class="used" id="model-line"></p>
+
+      <div class="notice">
+        <strong>This is an estimate, not a diagnosis.</strong>
+        Please discuss these results with a doctor. They can order the right tests and consider your full history.
+      </div>
+      <div class="emergency" id="emergency-note" hidden>
+        <strong>Call emergency services right away</strong> if you have chest pain, sudden weakness, trouble breathing,
+        confusion, or fainting.
+      </div>
+
+      <div id="info-slot"></div>
+      <button type="button" class="btn btn-outline" id="restart-btn">Start a new check</button>
+    </div>
+  </section>
+</div>
+
+<script id="disease-spec" type="application/json">{{ spec|tojson }}</script>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/disease.js') }}"></script>
+{% endblock %}

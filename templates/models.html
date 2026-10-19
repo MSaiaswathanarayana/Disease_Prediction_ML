@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Model comparison | Disease Prediction{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>Model comparison</h1>
+  <p>Four algorithms were trained for each task. The best model is chosen by cross-validated ROC-AUC on the training data,
+     so the test set is not used for selection. Results below come from a held-out test set.</p>
+</section>
+
+{% for t in tasks %}
+<section class="card model-card">
+  <div class="card-head">
+    <div>
+      <h2>{{ t.title }}</h2>
+      <p class="muted">{{ t.source }}</p>
+    </div>
+    <span class="badge-best">Best: {{ t.best_model }}</span>
+  </div>
+  <div class="table-wrap">
+    <table class="metrics">
+      <thead>
+        <tr>{% for c in t.columns %}<th scope="col">{{ c }}</th>{% endfor %}</tr>
+      </thead>
+      <tbody>
+        {% for row in t.rows %}
+        <tr class="{{ 'is-best' if row['Model'] == t.best_model else '' }}">
+          {% for c in t.columns %}
+            <td>{{ row[c] }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endfor %}
+
+<section class="card">
+  <h2>How to read these numbers</h2>
+  <div class="glossary">
+    <div><h3>Accuracy</h3><p>The share of all cases predicted correctly.</p></div>
+    <div><h3>Sensitivity (recall)</h3><p>The share of people with the condition that the model correctly flags. High sensitivity matters for screening.</p></div>
+    <div><h3>Specificity</h3><p>The share of people without the condition that the model correctly clears.</p></div>
+    <div><h3>ROC-AUC</h3><p>How well the model ranks higher-risk cases above lower-risk ones. 1.0 is perfect; 0.5 is guessing.</p></div>
+  </div>
+  <p class="muted small">These models are trained on public study data from a limited group of patients. Performance on your own population may differ, and none of the models is clinically validated.</p>
+</section>
+{% endblock %}

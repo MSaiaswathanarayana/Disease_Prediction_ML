@@ -1,0 +1,7 @@
+{
+  "target_column": "prognosis",
+  "feature_count": 132,
+  "class_count": 41,
+  "best_model_by_macro_f1": "SVM",
+  "educational_use_only": true
+}

@@ -1,0 +1,5 @@
+Model,CV ROC-AUC (train),Accuracy,Sensitivity (recall),Specificity,Precision,F1-score,Test ROC-AUC,TP,TN,FP,FN
+SVM,1.0,1.0,1.0,1.0,1.0,1.0,1.0,50,30,0,0
+Logistic Regression,1.0,0.975,0.96,1.0,1.0,0.9796,1.0,48,30,0,2
+Random Forest,0.9995,1.0,1.0,1.0,1.0,1.0,1.0,50,30,0,0
+XGBoost,0.9977,1.0,1.0,1.0,1.0,1.0,1.0,50,30,0,0

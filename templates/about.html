@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}About | Disease Prediction{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>About Disease Prediction</h1>
+  <p>An educational project that applies machine learning to symptoms, blood test results and heart measurements
+     to estimate how likely certain conditions are.</p>
+</section>
+
+<div class="about-grid">
+  <section class="card">
+    <h2>What the app does</h2>
+    <ul class="plain-list">
+      <li><strong>Patient assessment:</strong> one form combining symptoms, personal details, blood tests and heart tests.</li>
+      <li><strong>Symptom checker:</strong> ranks 41 conditions by the symptoms you select.</li>
+      <li><strong>Breast cancer check:</strong> estimates whether a tumour is likely malignant from lab measurements.</li>
+      <li><strong>Model comparison:</strong> shows how four algorithms performed on each dataset.</li>
+    </ul>
+    <h3>Algorithms</h3>
+    <p class="muted">Support Vector Machine, Logistic Regression, Random Forest and XGBoost were trained for each task.
+       The best model is chosen by cross-validated ROC-AUC on training data, so the test set is not used for selection.</p>
+  </section>
+
+  <section class="card developer-card">
+    <h2>Developed by</h2>
+    <p class="developer-name">{{ developer.name }}</p>
+    <p class="muted">For questions, feedback or collaboration:</p>
+    <a class="btn btn-primary btn-block" href="mailto:{{ developer.email }}">✉ {{ developer.email }}</a>
+  </section>
+</div>
+
+<section class="card">
+  <h2>Datasets and training</h2>
+  <p class="muted">Heart, diabetes and breast cancer models use an 80% training and 20% testing split. The symptom model uses the split supplied with its dataset.</p>
+  <div class="table-wrap">
+    <table class="metrics about-table">
+      <thead>
+        <tr><th>Task</th><th>Dataset</th><th>Records</th><th>Inputs</th><th>Best model</th><th>Performance</th><th>Used in</th></tr>
+      </thead>
+      <tbody>
+        {% for d in datasets %}
+        <tr>
+          <td><strong>{{ d.name }}</strong></td>
+          <td>{{ d.source }}</td>
+          <td>{{ d.records }}</td>
+          <td>{{ d.detail }}</td>
+          <td>{{ d.model }}</td>
+          <td>{{ d.metric }}</td>
+          <td>{{ d.used_in }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="muted small">Sources: UCI Machine Learning Repository (Heart Disease, Pima Indians Diabetes, Breast Cancer Wisconsin)
+     and the supplied symptom dataset. See data/SOURCES.md in the project.</p>
+  <p><a href="/models">View the full model comparison</a></p>
+</section>
+
+<section class="card">
+  <h2>Important limitations</h2>
+  <ul class="plain-list">
+    <li>The diabetes model was trained on adult women of Pima Indian heritage, so results for other groups are less reliable.</li>
+    <li>The kidney model reaches very high accuracy on its dataset. That dataset is small (400 patients) and its two groups are easy to separate, so expect lower accuracy on other patients.</li>
+    <li>The liver model is less accurate than the others (ROC-AUC about 0.8), so treat its estimate with more caution.</li>
+    <li>The blood pressure check uses fixed guideline thresholds rather than a trained model.</li>
+    <li>The datasets are small and come from specific study populations. They may not represent you.</li>
+    <li>No model here has been validated in a clinical setting. Results are for learning and discussion only.</li>
+    <li>Always consult a qualified healthcare professional before making any medical decision.</li>
+  </ul>
+</section>
+{% endblock %}

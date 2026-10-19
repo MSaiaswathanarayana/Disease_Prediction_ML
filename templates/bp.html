@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Blood pressure check | Disease Prediction{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>Blood pressure check</h1>
+  <p>Enter the two numbers from your blood pressure reading. We classify the reading using the 2017 ACC/AHA guideline
+     and explain what it means.</p>
+</section>
+
+<div class="layout">
+  <section class="card">
+    <div class="card-head">
+      <span class="step">1</span>
+      <div>
+        <h2>Your reading</h2>
+        <p class="muted">Use the most recent reading taken at rest.</p>
+      </div>
+    </div>
+    <form id="bp-form" novalidate>
+      <div class="fields">
+        <div class="field">
+          <label for="bp-sys">Systolic pressure <span class="unit">(top number, mm Hg)</span></label>
+          <input id="bp-sys" type="number" min="70" max="260" step="1" value="130" required>
+          <small class="help">The pressure when the heart beats.</small>
+        </div>
+        <div class="field">
+          <label for="bp-dia">Diastolic pressure <span class="unit">(bottom number, mm Hg)</span></label>
+          <input id="bp-dia" type="number" min="40" max="160" step="1" value="85" required>
+          <small class="help">The pressure between heartbeats.</small>
+        </div>
+        <div class="field">
+          <label for="bp-med">Taking blood pressure medicine?</label>
+          <select id="bp-med"><option value="0" selected>No</option><option value="1">Yes</option></select>
+          <small class="help">Changes the advice given, not the category.</small>
+        </div>
+      </div>
+      <div id="bp-error" class="alert alert-error" hidden></div>
+      <div class="actions">
+        <p class="hint">Results are based on one reading. Several readings give a better picture.</p>
+        <button type="submit" class="btn btn-primary" id="bp-btn">Check my reading</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="card results" aria-live="polite">
+    <div class="card-head">
+      <span class="step">2</span>
+      <div>
+        <h2>Your result</h2>
+        <p class="muted">Category, meaning and next steps.</p>
+      </div>
+    </div>
+    <div id="bp-placeholder" class="placeholder"><p>Enter your reading and select <strong>Check my reading</strong>.</p></div>
+    <div id="bp-output" hidden>
+      <div class="risk-row"><span class="risk-badge" id="bp-category">Normal</span></div>
+      <p class="risk-text" id="bp-meaning"></p>
+      <h3 class="card-title">Next steps</h3>
+      <ul class="plain-list" id="bp-steps"></ul>
+      <div id="bp-notes"></div>
+      <div class="notice"><strong>This is not a diagnosis.</strong> Blood pressure can change through the day. Share repeated readings with your doctor.</div>
+      <div class="emergency" id="bp-emergency" hidden><strong>Call emergency services right away</strong> if your reading is very high and you have chest pain, breathlessness, weakness, confusion or severe headache.</div>
+      <div id="bp-info"></div>
+    </div>
+  </section>
+</div>
+
+<section class="card">
+  <h2>Blood pressure categories</h2>
+  <div class="table-wrap">
+    <table class="metrics">
+      <thead><tr><th>Category</th><th>Systolic (top)</th><th>Diastolic (bottom)</th></tr></thead>
+      <tbody>
+        <tr><td>Normal</td><td>Below 120</td><td>and below 80</td></tr>
+        <tr><td>Elevated</td><td>120 to 129</td><td>and below 80</td></tr>
+        <tr><td>Stage 1 hypertension</td><td>130 to 139</td><td>or 80 to 89</td></tr>
+        <tr><td>Stage 2 hypertension</td><td>140 or higher</td><td>or 90 or higher</td></tr>
+        <tr><td>Hypertensive crisis</td><td>Above 180</td><td>and/or above 120 (seek urgent care)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/bp.js') }}"></script>
+{% endblock %}

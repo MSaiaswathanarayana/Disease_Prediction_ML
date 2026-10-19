@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Symptom checker | Disease Prediction{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>Symptom checker</h1>
+  <p>Choose the symptoms you are experiencing. We will show the conditions they most closely resemble. It takes about a minute.</p>
+</section>
+
+<div class="layout">
+  <section class="card" id="symptom-card" aria-labelledby="symptom-title">
+    <div class="card-head">
+      <span class="step">1</span>
+      <div>
+        <h2 id="symptom-title">Select your symptoms</h2>
+        <p class="muted">Pick at least {{ min_symptoms }} symptoms for a more useful result.</p>
+      </div>
+    </div>
+
+    <label class="search" for="symptom-search">
+      <span class="visually-hidden">Search symptoms</span>
+      <input id="symptom-search" type="search" placeholder="Search a symptom, e.g. fever or cough" autocomplete="off">
+    </label>
+
+    <div class="selected-block" id="selected-block" hidden>
+      <div class="selected-head">
+        <span>Your selection</span>
+        <button type="button" class="link-btn" id="clear-all">Clear all</button>
+      </div>
+      <div class="selected-list" id="selected-list"></div>
+    </div>
+
+    <div class="chip-grid" id="chip-grid" role="group" aria-label="Symptoms"></div>
+    <p class="empty" id="no-match" hidden>No symptoms match your search.</p>
+
+    <div class="actions">
+      <p class="hint" id="hint">Select at least {{ min_symptoms }} symptoms to continue.</p>
+      <button type="button" class="btn btn-primary" id="check-btn" disabled>Check my symptoms</button>
+    </div>
+  </section>
+
+  <section class="card results" aria-live="polite" aria-labelledby="results-title">
+    <div class="card-head">
+      <span class="step">2</span>
+      <div>
+        <h2 id="results-title">Your results</h2>
+        <p class="muted">Possible conditions, ranked by how well they match.</p>
+      </div>
+    </div>
+
+    <div id="placeholder" class="placeholder">
+      <div class="placeholder-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm1 13h-2v-2h2zm0-4h-2V7h2z"/></svg>
+      </div>
+      <p>Your results will appear here once you check your symptoms.</p>
+    </div>
+
+    <div id="loading" class="loading" hidden>
+      <span class="spinner" aria-hidden="true"></span>
+      <p>Reviewing your symptoms...</p>
+    </div>
+
+    <div id="error" class="alert alert-error" hidden></div>
+
+    <div id="output" hidden>
+      <p class="used" id="used-line"></p>
+      <ol class="result-list" id="result-list"></ol>
+      <div class="notice">
+        <strong>This is not a diagnosis.</strong>
+        Please speak with a doctor or nurse to confirm what is happening, especially if your symptoms are severe,
+        getting worse, or last more than a few days.
+      </div>
+      <div class="emergency">
+        <strong>Call emergency services right away</strong> if you have chest pain, trouble breathing,
+        confusion, fainting, or severe bleeding.
+      </div>
+      <button type="button" class="btn btn-outline" id="restart-btn">Start a new check</button>
+    </div>
+  </section>
+</div>
+
+<script id="symptom-data" type="application/json">{{ symptoms|tojson }}</script>
+<script>window.DP_CONFIG = { minSymptoms: {{ min_symptoms }} };</script>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/symptoms.js') }}"></script>
+{% endblock %}

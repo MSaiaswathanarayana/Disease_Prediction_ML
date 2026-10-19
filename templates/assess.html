@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}Patient assessment | Disease Prediction{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>Patient assessment</h1>
+  <p>Enter your symptoms, personal details, blood test results and heart test results. The app uses each
+     input in the model that needs it, then shows possible conditions, risk levels and blood results that need attention.</p>
+</section>
+
+<form id="assess-form" novalidate>
+
+  <section class="card form-section" aria-labelledby="sym-title">
+    <div class="card-head">
+      <span class="step">1</span>
+      <div>
+        <h2 id="sym-title">Symptoms</h2>
+        <p class="muted">Select at least {{ min_symptoms }} symptoms you are experiencing.</p>
+      </div>
+    </div>
+    <label class="search" for="sym-search">
+      <span class="visually-hidden">Search symptoms</span>
+      <input id="sym-search" type="search" placeholder="Search a symptom, e.g. fever or cough" autocomplete="off">
+    </label>
+    <div class="selected-block" id="sym-selected-block" hidden>
+      <div class="selected-head">
+        <span>Your selection</span>
+        <button type="button" class="link-btn" id="sym-clear">Clear all</button>
+      </div>
+      <div class="selected-list" id="sym-selected-list"></div>
+    </div>
+    <div class="chip-grid" id="sym-grid" role="group" aria-label="Symptoms"></div>
+    <p class="empty" id="sym-none" hidden>No symptoms match your search.</p>
+  </section>
+
+  {% for section in sections %}
+  <section class="card form-section" aria-labelledby="sec-{{ section.id }}">
+    <div class="card-head">
+      <span class="step">{{ loop.index + 1 }}</span>
+      <div>
+        <h2 id="sec-{{ section.id }}">{{ section.title }}</h2>
+        <p class="muted">{{ section.intro }}</p>
+      </div>
+    </div>
+    <div class="fields">
+      {% for f in section.fields %}
+      <div class="field">
+        <label for="f-{{ f.name }}">{{ f.label }}{% if f.unit %} <span class="unit">({{ f.unit }})</span>{% endif %}</label>
+        {% if f.type == 'select' %}
+          <select id="f-{{ f.name }}" name="{{ f.name }}">
+            {% for value, text in f.options %}
+              <option value="{{ value }}" {% if value == f.default %}selected{% endif %}>{{ text }}</option>
+            {% endfor %}
+          </select>
+        {% else %}
+          <input id="f-{{ f.name }}" name="{{ f.name }}" type="number" inputmode="decimal"
+                 min="{{ f.min }}" max="{{ f.max }}" step="{{ f.step }}" value="{{ f.default }}" required>
+        {% endif %}
+        {% if f.help %}<small class="help">{{ f.help }}</small>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+
+  <div class="submit-bar">
+    <div id="form-error" class="alert alert-error" hidden></div>
+    <div class="actions">
+      <p class="hint" id="sym-hint">Select at least {{ min_symptoms }} symptoms to continue.</p>
+      <button type="submit" class="btn btn-primary" id="assess-btn" disabled>Generate assessment</button>
+    </div>
+  </div>
+</form>
+
+<section id="results" class="results-area" hidden aria-live="polite">
+  <h2 class="results-heading">Your assessment</h2>
+  <div id="summary" class="summary"></div>
+
+  <div class="results-grid">
+    <article class="card">
+      <h3 class="card-title">Possible conditions from symptoms</h3>
+      <p class="muted small">Ranked by how well the symptoms match.</p>
+      <ol class="result-list" id="sym-results"></ol>
+    </article>
+    <article class="card">
+      <h3 class="card-title">Heart disease</h3>
+      <div id="heart-card"></div>
+    </article>
+    <article class="card">
+      <h3 class="card-title">Diabetes</h3>
+      <div id="diabetes-card"></div>
+    </article>
+  </div>
+
+  <article class="card">
+    <h3 class="card-title">Blood test and blood pressure check</h3>
+    <p class="muted small">Compared with common clinical thresholds. These flags are guides, not diagnoses.</p>
+    <div class="table-wrap">
+      <table class="metrics flags">
+        <thead><tr><th>Test</th><th>Your value</th><th>Status</th><th>What it means</th></tr></thead>
+        <tbody id="flag-rows"></tbody>
+      </table>
+    </div>
+  </article>
+
+  <div class="notice">
+    <strong>This is an estimate, not a diagnosis.</strong>
+    Please share these results with a doctor. They can order the right tests and consider your full history.
+  </div>
+  <div class="emergency" id="emergency-note" hidden>
+    <strong>Call emergency services right away</strong> if you have chest pain, sudden weakness, trouble breathing,
+    confusion, or fainting.
+  </div>
+  <button type="button" class="btn btn-outline" id="new-check">Start a new assessment</button>
+</section>
+
+<script id="symptom-data" type="application/json">{{ symptoms|tojson }}</script>
+<script>window.ASSESS_CONFIG = { minSymptoms: {{ min_symptoms }} };</script>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/assess.js') }}"></script>
+{% endblock %}

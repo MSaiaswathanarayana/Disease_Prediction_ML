@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Disease checks | Disease Prediction{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>Disease checks</h1>
+  <p>Choose one check to focus on a single condition. Each form asks only for the results that check needs.
+     For a combined view, use the <a href="/">patient assessment</a>.</p>
+</section>
+<section class="task-grid">
+  {% for c in cards %}
+  <article class="task-card">
+    <h2>{{ c.title }}</h2>
+    <p class="muted">{{ c.short }}</p>
+    <div class="task-meta"><span>Input: {{ c.inputs }}</span></div>
+    <a class="btn btn-primary btn-block" href="{{ c.href }}">Start check</a>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}
